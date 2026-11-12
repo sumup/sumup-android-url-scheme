@@ -14,4 +14,16 @@
     <string name="receipt_sent_placeholder">Receipt sent: -</string>
     <string name="callback_result_format">Result: %1$s</string>
     <string name="callback_result_missing">Result: no callback data received</string>
+    <string name="affiliate_key_label">Affiliate key</string>
+    <string name="affiliate_key_placeholder" translatable="false">REPLACE_WITH_YOUR_AFFILIATE_KEY</string>
+    <string name="app_id_label">App ID (URI only)</string>
+    <string name="app_id_default" translatable="false">com.sumup.apisampleapp</string>
+    <string name="total_label">Total</string>
+    <string name="total_default" translatable="false">1.23</string>
+    <string name="currency_label">Currency</string>
+    <string name="currency_default" translatable="false">EUR</string>
+    <string name="foreign_tx_id_label">Foreign transaction ID</string>
+    <string name="foreign_tx_id_hint">Leave empty for a random UUID</string>
+    <string name="checkout_methods_note">Intent: native apps using com.sumup:merchant-api. The app ID is always this app\'s package name.\nURI: apps and websites using sumupmerchant://pay/1.0.</string>
+    <string name="invalid_total_or_currency">Invalid total or currency</string>
 </resources>

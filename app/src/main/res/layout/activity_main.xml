@@ -1,72 +1,141 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/container"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".MainActivity"
-  android:orientation="vertical"
-  android:gravity="center">
+  android:fitsSystemWindows="true"
+  tools:context=".MainActivity">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:labelFor="@+id/input_affiliate_key"
+      android:text="@string/affiliate_key_label" />
+
+    <EditText
+      android:id="@+id/input_affiliate_key"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/affiliate_key_placeholder"
+      android:inputType="text"
+      android:importantForAutofill="no"
+      android:text="@string/affiliate_key_placeholder" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:labelFor="@+id/input_app_id"
+      android:text="@string/app_id_label" />
+
+    <EditText
+      android:id="@+id/input_app_id"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/app_id_default"
+      android:inputType="text"
+      android:importantForAutofill="no"
+      android:text="@string/app_id_default" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:labelFor="@+id/input_total"
+      android:text="@string/total_label" />
+
+    <EditText
+      android:id="@+id/input_total"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/total_default"
+      android:inputType="numberDecimal"
+      android:importantForAutofill="no"
+      android:text="@string/total_default" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:labelFor="@+id/input_currency"
+      android:text="@string/currency_label" />
+
+    <EditText
+      android:id="@+id/input_currency"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/currency_default"
+      android:inputType="textCapCharacters"
+      android:importantForAutofill="no"
+      android:text="@string/currency_default" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:labelFor="@+id/input_foreign_tx_id"
+      android:text="@string/foreign_tx_id_label" />
+
+    <EditText
+      android:id="@+id/input_foreign_tx_id"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/foreign_tx_id_hint"
+      android:inputType="text"
+      android:importantForAutofill="no" />
 
     <Button
       android:id="@+id/button_charge_intent"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="16dp"
-      android:text="@string/charge_intent_button"
-      android:layout_gravity="center"/>
+      android:layout_marginTop="16dp"
+      android:text="@string/charge_intent_button" />
 
     <Button
       android:id="@+id/button_charge_uri"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/charge_uri_button" />
+
+    <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:text="@string/charge_uri_button"
-      android:layout_gravity="center"/>
+      android:text="@string/checkout_methods_note" />
 
-    <ScrollView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-
-    <LinearLayout
+    <TextView
+      android:id="@+id/result"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="vertical">
+      android:textSize="18sp"
+      android:padding="8dp"
+      tools:text="@string/result_placeholder" />
 
-     <TextView
-       android:id="@+id/result"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:textSize="18sp"
-       android:padding="8dp"
-       tools:text="@string/result_placeholder"
-       android:layout_gravity="center"/>
+    <TextView
+      android:id="@+id/result_msg"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="18sp"
+      android:padding="8dp"
+      tools:text="@string/message_placeholder" />
 
-      <TextView
-        android:id="@+id/result_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:padding="8dp"
-        tools:text="@string/message_placeholder"
-        android:layout_gravity="center"/>
+    <TextView
+      android:id="@+id/tx_code"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="18sp"
+      android:padding="8dp"
+      tools:text="@string/transaction_code_placeholder" />
 
-      <TextView
-        android:id="@+id/tx_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:padding="8dp"
-        tools:text="@string/transaction_code_placeholder"
-        android:layout_gravity="center"/>
+    <TextView
+      android:id="@+id/receipt_sent"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="18sp"
+      android:padding="8dp"
+      tools:text="@string/receipt_sent_placeholder" />
 
-      <TextView
-        android:id="@+id/receipt_sent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:padding="8dp"
-        tools:text="@string/receipt_sent_placeholder"/>
-
-    </LinearLayout>
-  </ScrollView>
-</LinearLayout>
+  </LinearLayout>
+</ScrollView>
