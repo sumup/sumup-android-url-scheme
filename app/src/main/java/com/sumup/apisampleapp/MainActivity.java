@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.sumup.merchant.api.SumUpAPI;
 import com.sumup.merchant.api.SumUpPayment;
@@ -14,10 +16,14 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-  private static final String AFFILIATE_KEY = "REPLACE_WITH_YOUR_AFFILIATE_KEY";
-  private static final String APP_ID = "com.sumup.apisampleapp";
   private static final String CALLBACK_URI = "sumupsampleresult://result";
   private static final int REQUEST_CODE_PAYMENT = 2;
+
+  private EditText mAffiliateKey;
+  private EditText mAppId;
+  private EditText mTotal;
+  private EditText mCurrency;
+  private EditText mForeignTxId;
 
   private TextView mResultCode;
   private TextView mResultMessage;
@@ -36,14 +42,26 @@ public class MainActivity extends AppCompatActivity {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+            BigDecimal total;
+            SumUpPayment.Currency currency;
+            try {
+              total = new BigDecimal(mTotal.getText().toString());
+              currency = SumUpPayment.Currency.valueOf(mCurrency.getText().toString());
+            } catch (IllegalArgumentException e) {
+              Toast.makeText(
+                      MainActivity.this, R.string.invalid_total_or_currency, Toast.LENGTH_SHORT)
+                  .show();
+              return;
+            }
+
             SumUpPayment payment =
                 SumUpPayment.builder()
                     // mandatory parameters
                     // Please go to https://me.sumup.com/developers to get your Affiliate Key by
                     // entering the application ID of your app. (e.g. com.sumup.sdksampleapp)
-                    .affiliateKey(AFFILIATE_KEY)
-                    .total(new BigDecimal("1.23"))
-                    .currency(SumUpPayment.Currency.EUR) // optional: add details
+                    .affiliateKey(mAffiliateKey.getText().toString())
+                    .total(total)
+                    .currency(currency) // optional: add details
                     .title("Taxi Ride")
                     .receiptEmail("customer@mail.com")
                     .receiptSMS("+3531234567890")
@@ -52,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     .addAdditionalInfo("From", "Paris")
                     .addAdditionalInfo("To", "Berlin")
                     // optional: foreign transaction ID, must be unique!
-                    .foreignTransactionId(UUID.randomUUID().toString()) // can not exceed 128 chars
+                    .foreignTransactionId(foreignTransactionId()) // can not exceed 128 chars
                     // optional: skip the success screen
                     .skipSuccessScreen()
                     .build();
@@ -71,16 +89,16 @@ public class MainActivity extends AppCompatActivity {
                     .scheme("sumupmerchant")
                     .authority("pay")
                     .appendPath("1.0")
-                    .appendQueryParameter("affiliate-key", AFFILIATE_KEY)
-                    .appendQueryParameter("app-id", APP_ID)
+                    .appendQueryParameter("affiliate-key", mAffiliateKey.getText().toString())
+                    .appendQueryParameter("app-id", mAppId.getText().toString())
                     // field available from App version 1.88.0 and above. Otherwise keep
                     // deprecated field "amount"
-                    .appendQueryParameter("total", "1.23")
-                    .appendQueryParameter("currency", "EUR")
+                    .appendQueryParameter("total", mTotal.getText().toString())
+                    .appendQueryParameter("currency", mCurrency.getText().toString())
                     .appendQueryParameter("title", "Taxi Ride")
                     .appendQueryParameter("receipt-mobilephone", "+3531234567890")
                     .appendQueryParameter("receipt-email", "customer@mail.com")
-                    .appendQueryParameter("foreign-tx-id", UUID.randomUUID().toString())
+                    .appendQueryParameter("foreign-tx-id", foreignTransactionId())
                     // optional: skip the success screen
                     .appendQueryParameter("skip-screen-success", "true")
                     .appendQueryParameter("callback", CALLBACK_URI)
@@ -116,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  private String foreignTransactionId() {
+    String foreignTxId = mForeignTxId.getText().toString();
+    return foreignTxId.isEmpty() ? UUID.randomUUID().toString() : foreignTxId;
+  }
+
   private void resetViews() {
     mResultCode.setText("");
     mResultMessage.setText("");
@@ -124,6 +147,11 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void findViews() {
+    mAffiliateKey = (EditText) findViewById(R.id.input_affiliate_key);
+    mAppId = (EditText) findViewById(R.id.input_app_id);
+    mTotal = (EditText) findViewById(R.id.input_total);
+    mCurrency = (EditText) findViewById(R.id.input_currency);
+    mForeignTxId = (EditText) findViewById(R.id.input_foreign_tx_id);
     mResultCode = (TextView) findViewById(R.id.result);
     mResultMessage = (TextView) findViewById(R.id.result_msg);
     mTxCode = (TextView) findViewById(R.id.tx_code);
